@@ -1,0 +1,78 @@
+2026-02-13 19:38:19 [main] INFO  c.s.v.VideoFrameExtractorApplication - Starting VideoFrameExtractorApplication using Java 21.0.10 with PID 24188 (C:\Users\user\Music\video-frame-extractor\videoFrameExtractor\target\classes started by user in C:\Users\user\Music\video-frame-extractor\videoFrameExtractor)
+2026-02-13 19:38:19 [main] INFO  c.s.v.VideoFrameExtractorApplication - The following 1 profile is active: "dev"
+2026-02-13 19:38:22 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-13 19:38:22 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 184 ms. Found 1 JPA repository interface.
+2026-02-13 19:38:24 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-02-13 19:38:24 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-02-13 19:38:24 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-02-13 19:38:25 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 5205 ms
+2026-02-13 19:38:25 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-02-13 19:38:26 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.1.Final
+2026-02-13 19:38:27 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-13 19:38:27 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-02-13 19:38:27 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:videoframeextractor user=SA
+2026-02-13 19:38:27 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-02-13 19:38:27 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-13 19:38:27 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:videoframeextractor]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: VIDEOFRAMEEXTRACTOR/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-13 19:38:29 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-13 19:38:29 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-13 19:38:29 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-13 19:38:31 [main] INFO  net.bramp.ffmpeg.RunProcessFunction - ffmpeg -version
+2026-02-13 19:38:31 [main] WARN  c.s.v.i.config.FFmpegConfig - FFmpeg não encontrado no PATH (ffmpeg). Modo demonstração ativado. Para usar processamento real, instale o FFmpeg: https://ffmpeg.org/download.html
+2026-02-13 19:38:31 [main] INFO  c.s.v.i.config.FFmpegConfig - FFprobe inicializado com sucesso: ffprobe
+2026-02-13 19:38:34 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoints beneath base path '/actuator'
+2026-02-13 19:38:34 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-02-13 19:38:34 [main] INFO  c.s.v.VideoFrameExtractorApplication - Started VideoFrameExtractorApplication in 16.288 seconds (process running for 47.195)
+2026-02-13 19:38:34 [main] INFO  c.s.v.i.config.DirectoryInitializer - Diretórios criados: temp=temp, output=output
+2026-02-13 19:38:34 [main] WARN  c.s.v.i.config.DirectoryInitializer - FFmpeg não encontrado no PATH. Certifique-se de que o FFmpeg está instalado: Cannot run program "ffmpeg": CreateProcess error=2, O sistema não pode encontrar o arquivo especificado
+2026-02-13 19:39:22 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-13 19:39:23 [http-nio-8080-exec-1] INFO  c.s.v.i.a.i.r.VideoFrameExtractionController - Recebida solicitação de extração de frames: arquivo=WhatsApp Video 2026-01-01 at 11.11.37.mp4, intervalo=1.0, maxFrames=400, formato=PNG
+2026-02-13 19:39:23 [http-nio-8080-exec-1] INFO  c.s.v.a.u.ProcessVideoFramesService - Iniciando processamento do vídeo: WhatsApp Video 2026-01-01 at 11.11.37.mp4 (ID: ed7331ab-9afe-3934-b493-12d89fca9aa0)
+2026-02-13 19:39:23 [http-nio-8080-exec-1] WARN  c.s.v.i.a.o.f.FFmpegVideoFrameProcessor - FFmpeg não disponível. Usando JavaCV para extrair frames REAIS do vídeo.
+2026-02-13 19:39:23 [http-nio-8080-exec-1] INFO  c.s.v.i.a.o.f.FFmpegVideoFrameProcessor - 🎬 Extraindo frames REAIS do vídeo usando JavaCV (sem FFmpeg)
+2026-02-13 19:39:23 [http-nio-8080-exec-1] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Extraindo frames REAIS do vídeo: video_ed7331ab-9afe-3934-b493-12d89fca9aa0.mp4
+2026-02-13 19:39:36 [http-nio-8080-exec-1] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Vídeo: 29.801980198019802 fps, 303 frames totais, {:.1f}s duração
+2026-02-13 19:39:36 [http-nio-8080-exec-1] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Extraindo 10 frames com intervalo de {:.1f}s
+2026-02-13 19:39:44 [http-nio-8080-exec-1] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Extração concluída: 10 frames REAIS extraídos do vídeo!
+2026-02-13 19:39:44 [http-nio-8080-exec-1] INFO  c.s.v.i.a.o.f.FFmpegVideoFrameProcessor - Frames REAIS extraídos com sucesso via JavaCV: 10
+2026-02-13 19:39:45 [http-nio-8080-exec-1] INFO  c.s.v.i.a.o.f.FileSystemAdapter - Arquivo ZIP criado: output\frames_ed7331ab-9afe-3934-b493-12d89fca9aa0_20260213_193944.zip
+2026-02-13 19:39:45 [http-nio-8080-exec-1] INFO  c.s.v.a.u.ProcessVideoFramesService - Processamento concluído. 10 frames extraídos em 21246ms
+2026-02-13 19:44:15 [http-nio-8080-exec-5] INFO  c.s.v.i.a.i.r.VideoFrameExtractionController - Recebida solicitação de extração de frames em lote: 2 vídeos, intervalo=2.0, maxFrames=550, formato=PNG
+2026-02-13 19:44:15 [http-nio-8080-exec-5] INFO  c.s.v.a.u.ProcessVideoFramesService - Iniciando processamento do vídeo: https___chatgpt.com_____text__F0_9F_8E_AC-,Pika.art,-Entre_20no_20site_seed1752961758.mp4 (ID: 8b449eb9-e70f-37e2-ac71-48349c0341eb)
+2026-02-13 19:44:15 [http-nio-8080-exec-5] WARN  c.s.v.i.a.o.f.FFmpegVideoFrameProcessor - FFmpeg não disponível. Usando JavaCV para extrair frames REAIS do vídeo.
+2026-02-13 19:44:15 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.f.FFmpegVideoFrameProcessor - 🎬 Extraindo frames REAIS do vídeo usando JavaCV (sem FFmpeg)
+2026-02-13 19:44:15 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Extraindo frames REAIS do vídeo: video_8b449eb9-e70f-37e2-ac71-48349c0341eb.mp4
+2026-02-13 19:44:15 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Vídeo: 30.0 fps, 151 frames totais, {:.1f}s duração
+2026-02-13 19:44:15 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Extraindo 2 frames com intervalo de {:.1f}s
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Extração concluída: 2 frames REAIS extraídos do vídeo!
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.f.FFmpegVideoFrameProcessor - Frames REAIS extraídos com sucesso via JavaCV: 2
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.f.FileSystemAdapter - Arquivo ZIP criado: output\frames_8b449eb9-e70f-37e2-ac71-48349c0341eb_20260213_194417.zip
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.a.u.ProcessVideoFramesService - Processamento concluído. 2 frames extraídos em 2259ms
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.i.a.i.r.VideoFrameExtractionController - Vídeo processado com sucesso: https___chatgpt.com_____text__F0_9F_8E_AC-,Pika.art,-Entre_20no_20site_seed1752961758.mp4
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.a.u.ProcessVideoFramesService - Iniciando processamento do vídeo: WhatsApp Video 2026-01-27 at 12.31.45.mp4 (ID: 2fb3ea62-0258-32b5-a141-c82c6419c808)
+2026-02-13 19:44:17 [http-nio-8080-exec-5] WARN  c.s.v.i.a.o.f.FFmpegVideoFrameProcessor - FFmpeg não disponível. Usando JavaCV para extrair frames REAIS do vídeo.
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.f.FFmpegVideoFrameProcessor - 🎬 Extraindo frames REAIS do vídeo usando JavaCV (sem FFmpeg)
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Extraindo frames REAIS do vídeo: video_2fb3ea62-0258-32b5-a141-c82c6419c808.mp4
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Vídeo: 29.507375173312397 fps, 582 frames totais, {:.1f}s duração
+2026-02-13 19:44:17 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Extraindo 9 frames com intervalo de {:.1f}s
+2026-02-13 19:44:19 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.j.JavaCVFrameExtractor - Extração concluída: 9 frames REAIS extraídos do vídeo!
+2026-02-13 19:44:19 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.f.FFmpegVideoFrameProcessor - Frames REAIS extraídos com sucesso via JavaCV: 9
+2026-02-13 19:44:20 [http-nio-8080-exec-5] INFO  c.s.v.i.a.o.f.FileSystemAdapter - Arquivo ZIP criado: output\frames_2fb3ea62-0258-32b5-a141-c82c6419c808_20260213_194419.zip
+2026-02-13 19:44:20 [http-nio-8080-exec-5] INFO  c.s.v.a.u.ProcessVideoFramesService - Processamento concluído. 9 frames extraídos em 2414ms
+2026-02-13 19:44:20 [http-nio-8080-exec-5] INFO  c.s.v.i.a.i.r.VideoFrameExtractionController - Vídeo processado com sucesso: WhatsApp Video 2026-01-27 at 12.31.45.mp4
+2026-02-13 20:04:16 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-13 20:04:16 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-02-13 20:04:16 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-13 20:04:16 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-02-13 20:04:16 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
