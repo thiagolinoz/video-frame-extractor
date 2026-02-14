@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-frame-extractor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: video-frame-extractor
+  template:
+    metadata:
+      labels:
+        app: video-frame-extractor
+    spec:
+      containers:
+        - name: video-frame-extractor
+          image: REPO_ECR
+          resources:
+            requests:
+              cpu: "100m" # Solicita 0.1 de um core de CPU
+              memory: "128Mi" # Solicita 128 megabytes de memória
+            limits:
+              cpu: "500m" # Limite de 0.5 de um core de CPU
+              memory: "256Mi" # Limite de 256 megabytes de memória
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: AWS_REGION
+              value: "us-east-1"
+            - name: AWS_ACCESS_KEY_ID # comentar daqui p deploy sem action
+              valueFrom:
+                secretKeyRef:
+                  name: aws-academy-credentials
+                  key: access-key-id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-academy-credentials
+                  key: secret-access-key
+            - name: AWS_SESSION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: aws-academy-credentials
+                  key: session-token # comentar ate aqui p deploy sem action
+#            - name: AWS_ACCESS_KEY_ID
+#              value: "ID_DA_TUA_CONTA_ACADEMY"
+#            - name: AWS_SECRET_ACCESS_KEY
+#              value: "SECRET_DA_TUA_CONTA_ACADEMY"
+#            - name: AWS_SESSION_TOKEN
+#              value: "TOKEN_DA_TUA_CONTA_ACADEMY"
