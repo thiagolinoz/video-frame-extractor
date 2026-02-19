@@ -50,8 +50,8 @@ README*
 HELP.md
 
 # Docker files (not needed inside container)
-Dockerfile*
-docker-compose*
+Dockerfile
+docker-compose.yml
 
 # Test files (not needed in production image)
 src/test/

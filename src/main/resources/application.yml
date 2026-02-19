@@ -7,7 +7,7 @@ spring:
 # Kafka Configuration (conforme diagrama)
 kafka:
   enabled: true
-  bootstrap-servers: 54.172.160.122:9094  # Mesmo servidor do video-app
+  bootstrap-servers: 98.90.200.214:9094  # Mesmo servidor do video-app
   consumer:
     group-id: video-frame-extractor-group
     auto-offset-reset: earliest
@@ -53,36 +53,36 @@ management:
       show-details: always
 
 ---
-# Local development profile
-spring:
-  config:
-    activate:
-      on-profile: local
-
-kafka:
-  bootstrap-servers: localhost:9092
-
-app:
-  aws:
-    s3:
-      endpoint: http://localhost:4566
-      path-style-access: true
-
----
-# Production profile
-spring:
-  config:
-    activate:
-      on-profile: prod
-
-kafka:
-  enabled: true
-  bootstrap-servers: 54.172.160.122:9094
-
-app:
-  aws:
-    access-key: ${AWS_ACCESS_KEY_ID}
-    secret-key: ${AWS_SECRET_ACCESS_KEY}
-    s3:
-      bucket-name: postech-fiap-bucket-videos-fase5
-      path-style-access: false
+## Local development profile
+#spring:
+#  config:
+#    activate:
+#      on-profile: local
+#
+#kafka:
+#  bootstrap-servers: localhost:9092
+#
+#app:
+#  aws:
+#    s3:
+#      endpoint: http://localhost:4566
+#      path-style-access: true
+#
+#---
+## Production profile
+#spring:
+#  config:
+#    activate:
+#      on-profile: prod
+#
+#kafka:
+#  enabled: true
+#  bootstrap-servers: 54.172.160.122:9094
+#
+#app:
+#  aws:
+#    access-key: ${AWS_ACCESS_KEY_ID}
+#    secret-key: ${AWS_SECRET_ACCESS_KEY}
+#    s3:
+#      bucket-name: postech-fiap-bucket-videos-fase5
+#      path-style-access: false

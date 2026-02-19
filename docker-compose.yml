@@ -7,7 +7,7 @@ networks:
 services:
   app:
     build:
-      context: .
+      context: videoFrameExtractor
       dockerfile: Dockerfile
     container_name: videoframeextractor-app
     environment:
