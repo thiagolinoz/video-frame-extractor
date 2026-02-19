@@ -1,45 +1,54 @@
-# Multi-stage build for optimized image
-FROM maven:3.9.4-openjdk-21-slim AS build
+# Multi-stage build for optimization
+FROM maven:3.9.6-amazoncorretto-21 AS builder
 
 WORKDIR /app
+
+# Copy Maven files first for better layer caching
 COPY pom.xml .
+COPY mvnw .
+COPY mvnw.cmd .
+COPY .mvn .mvn
+
+# Download dependencies (cached layer)
 RUN mvn dependency:go-offline -B
 
-COPY src ./src
-RUN mvn clean package -DskipTests
+# Copy source code and build
+COPY src src
+RUN mvn clean package -DskipTests -B
 
-# Runtime image
-FROM openjdk:21-jdk-slim
+# Runtime stage
+FROM amazoncorretto:21-alpine-jdk AS runtime
 
-# Install FFmpeg and curl for health checks
-RUN apt-get update && \
-    apt-get install -y ffmpeg curl && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Install FFmpeg and create user in single layer
+RUN apk add --no-cache ffmpeg shadow && \
+    addgroup -g 1001 video-frame-extractor && \
+    adduser -D -u 1001 -G video-frame-extractor video-frame-extractor && \
+    apk del shadow
 
-# Create non-root user
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-
-# Create directories
+# Create directories with proper permissions
 RUN mkdir -p /app/temp /app/output /app/logs && \
-    chown -R appuser:appuser /app
+    chown -R video-frame-extractor:video-frame-extractor /app
+
+# Switch to non-root user
+USER video-frame-extractor
 
 WORKDIR /app
 
-# Copy jar from build stage
-COPY --from=build /app/target/videoFrameExtractor-*.jar app.jar
+# Copy JAR from builder stage
+COPY --from=builder --chown=video-frame-extractor:video-frame-extractor /app/target/videoFrameExtractor-0.0.1-SNAPSHOT.jar app.jar
 
-# Change ownership
-RUN chown appuser:appuser app.jar
+# Expose the correct port from application.yml
+EXPOSE 8085
 
-# Switch to non-root user
-USER appuser
-
-# Health check
+# Add health check
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:8080/actuator/health || exit 1
+    CMD wget --no-verbose --tries=1 --spider http://localhost:8085/actuator/health || exit 1
 
-EXPOSE 8080
-
-# Run with H2 profile
-ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=dev"]
+# Optimize JVM settings for containers
+ENTRYPOINT ["java", \
+    "-XX:+UseContainerSupport", \
+    "-XX:MaxRAMPercentage=75.0", \
+    "-XX:+ExitOnOutOfMemoryError", \
+    "-Djava.security.egd=file:/dev/./urandom", \
+    "-jar", \
+    "app.jar"]

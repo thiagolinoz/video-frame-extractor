@@ -1,0 +1,63 @@
+# Build artifacts (keep only the final JAR for runtime stage)
+target/
+!target/videoFrameExtractor-*.jar
+
+# Maven files (not needed in runtime stage when using multi-stage build)
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE files
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.eclipse/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary and output files
+temp/
+output/
+*.tmp
+
+# Git
+.git/
+.gitignore
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Documentation
+*.md
+docs/
+README*
+HELP.md
+
+# Docker files (not needed inside container)
+Dockerfile*
+docker-compose*
+
+# Test files (not needed in production image)
+src/test/
+
+# Kubernetes manifests
+k8s/
+
+# Scripts
+*.sh
