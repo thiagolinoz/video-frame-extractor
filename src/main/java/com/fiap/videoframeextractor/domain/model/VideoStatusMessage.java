@@ -19,7 +19,7 @@ public class VideoStatusMessage {
     private String nmVideo;
     private String nmPersonName;
     private String errorMessage;
-    private LocalDateTime timestamp;
+//    private LocalDateTime timestamp;
 
     public static VideoStatusMessage processing(String videoId, String userEmail, String fileName, String userName) {
         return VideoStatusMessage.builder()
@@ -28,7 +28,7 @@ public class VideoStatusMessage {
             .cdVideoStatus("PROCESSING")
             .nmVideo(fileName)
             .nmPersonName(userName)
-            .timestamp(LocalDateTime.now())
+//            .timestamp(LocalDateTime.now())
             .build();
     }
 
@@ -39,7 +39,7 @@ public class VideoStatusMessage {
             .cdVideoStatus("COMPLETED")
             .nmVideo(fileName)
             .nmPersonName(userName)
-            .timestamp(LocalDateTime.now())
+//            .timestamp(LocalDateTime.now())
             .build();
     }
 
@@ -50,7 +50,7 @@ public class VideoStatusMessage {
             .cdVideoStatus("PROCESS_ERROR")
             .nmVideo(fileName)
             .nmPersonName(userName)
-            .timestamp(LocalDateTime.now())
+//            .timestamp(LocalDateTime.now())
             .build();
     }
 
