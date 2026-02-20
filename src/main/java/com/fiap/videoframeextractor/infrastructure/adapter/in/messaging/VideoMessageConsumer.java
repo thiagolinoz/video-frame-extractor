@@ -24,7 +24,7 @@ public class VideoMessageConsumer {
 
     @KafkaListener(
         topics = "received-videos",
-        groupId = "${kafka.consumer.group-id}",
+        groupId = "${kafka.consumer.group-id:video-frame-extractor-group-teste}",
         containerFactory = "kafkaListenerContainerFactory"
     )
     public void handleReceivedVideo(
