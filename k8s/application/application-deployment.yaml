@@ -54,30 +54,30 @@ spec:
             - configMapRef:
                 name: video-frame-extractor-config
 
-          # Volume para armazenar arquivos temporários
-          volumeMounts:
-            - name: temp-storage
-              mountPath: /app/temp
-            - name: output-storage
-              mountPath: /app/output
+          # # Volume para armazenar arquivos temporários
+          # volumeMounts:
+          #   - name: temp-storage
+          #     mountPath: /app/temp
+          #   - name: output-storage
+          #     mountPath: /app/output
 
-          # Readiness probe para garantir que o pod está pronto
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            failureThreshold: 3
+          # # Readiness probe para garantir que o pod está pronto
+          # readinessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8080
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
+          #   failureThreshold: 3
 
-          # Liveness probe para garantir que o pod está funcionando
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
-            initialDelaySeconds: 60
-            periodSeconds: 30
-            failureThreshold: 3
+          # # Liveness probe para garantir que o pod está funcionando
+          # livenessProbe:
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8080
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 30
+          #   failureThreshold: 3
 
       volumes:
         - name: temp-storage
