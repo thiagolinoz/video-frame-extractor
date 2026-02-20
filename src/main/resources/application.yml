@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local
+    active: prod
   application:
     name: video-frame-extractor
 
@@ -35,13 +35,13 @@ app:
 # Logging
 logging:
   level:
-    com.summitbra.videoframeextractor: INFO
-    org.springframework.kafka: ERROR
+    com.summitbra.videoframeextractor: DEBUG
+    org.springframework.kafka: DEBUG
     com.amazonaws: WARN
 
 # Server configuration
 server:
-  port: 8085  # Diferente do video-app (8080)
+  port: 8080  # Diferente do video-app (8080)
 
 management:
   endpoints:
