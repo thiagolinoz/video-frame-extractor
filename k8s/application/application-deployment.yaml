@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: video-frame-extractor
-          image: REPO_ECR_FRAME_EXTRACTOR
+          image: REPO_ECR
           resources:
             requests:
               cpu: "200m" # Solicita 0.2 de um core de CPU (maior que video-app por conta do processamento)
