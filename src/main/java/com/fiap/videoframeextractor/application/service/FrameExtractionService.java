@@ -23,6 +23,7 @@ public class FrameExtractionService {
     public void processVideo(VideoMessage videoMessage) {
         String videoId = videoMessage.getVideoId();
         String fileName = videoMessage.getFileName();
+        String videoPath = videoMessage.getNmVideoPathOrigin();
 
         log.info("=== INICIANDO PROCESSAMENTO DE FRAMES ===");
         log.info("Vídeo: {}", fileName);
@@ -31,14 +32,14 @@ public class FrameExtractionService {
         try {
             validateVideoFormat(fileName);
 
-            if (!s3StorageAdapter.videoExists(videoId)) {
+            if (!s3StorageAdapter.videoExists(videoPath)) {
                 throw new VideoProcessingException("Vídeo não encontrado no S3: " + videoId);
             }
 
-            validateVideoSize(videoId);
+            validateVideoSize(videoPath);
 
             log.info("Fazendo download do vídeo do S3...");
-            byte[] videoData = s3StorageAdapter.downloadVideo(videoId);
+            byte[] videoData = s3StorageAdapter.downloadVideo(videoPath);
             log.info("Download concluído. Tamanho: {} bytes", videoData.length);
 
             log.info("Extraindo frames do vídeo...");
@@ -88,9 +89,9 @@ public class FrameExtractionService {
         log.info("Formato de vídeo validado: {}", extension);
     }
 
-    private void validateVideoSize(String videoId) {
+    private void validateVideoSize(String videoPath) {
         try {
-            var metadata = s3StorageAdapter.getVideoMetadata(videoId);
+            var metadata = s3StorageAdapter.getVideoMetadata(videoPath);
             long fileSize = metadata.getSize();
 
             if (fileSize > MAX_FILE_SIZE) {

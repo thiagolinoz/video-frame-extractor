@@ -26,13 +26,11 @@ public class S3StorageAdapter {
     @Value("${app.aws.s3.frames-prefix:frames/}")
     private String framesPrefix;
 
-    public byte[] downloadVideo(String videoId) {
-        String videoKey = videosPrefix + videoId;
-
+    public byte[] downloadVideo(String videoPath) {
         try {
-            log.info("Downloading video from S3: bucket={}, key={}", bucketName, videoKey);
+            log.info("Downloading video from S3: bucket={}, key={}", bucketName, videoPath);
 
-            S3Object s3Object = s3Client.getObject(bucketName, videoKey);
+            S3Object s3Object = s3Client.getObject(bucketName, videoPath);
             byte[] content = s3Object.getObjectContent().readAllBytes();
 
             log.info("Successfully downloaded video: {} bytes", content.length);
@@ -40,11 +38,11 @@ public class S3StorageAdapter {
 
         } catch (AmazonS3Exception e) {
             if (e.getStatusCode() == 404) {
-                throw new VideoNotFoundException("Video not found in S3: " + videoId, e);
+                throw new VideoNotFoundException("Video not found in S3: " + videoPath, e);
             }
-            throw new S3OperationException("Failed to download video from S3: " + videoId, e);
+            throw new S3OperationException("Failed to download video from S3: " + videoPath, e);
         } catch (IOException e) {
-            throw new S3OperationException("Failed to read video content: " + videoId, e);
+            throw new S3OperationException("Failed to read video content: " + videoPath, e);
         }
     }
 
@@ -79,28 +77,25 @@ public class S3StorageAdapter {
         }
     }
 
-    public boolean videoExists(String videoId) {
-        String videoKey = videosPrefix + videoId;
-
+    public boolean videoExists(String videoPath) {
         try {
-            s3Client.getObjectMetadata(bucketName, videoKey);
+            s3Client.getObjectMetadata(bucketName, videoPath);
             return true;
         } catch (AmazonS3Exception e) {
             if (e.getStatusCode() == 404) {
                 return false;
             }
-            throw new S3OperationException("Failed to check video existence: " + videoId, e);
+            throw new S3OperationException("Failed to check video existence: " + videoPath, e);
         }
     }
 
-    public VideoMetadata getVideoMetadata(String videoId) {
-        String videoKey = videosPrefix + videoId;
+    public VideoMetadata getVideoMetadata(String videoPath) {
 
         try {
-            ObjectMetadata metadata = s3Client.getObjectMetadata(bucketName, videoKey);
+            ObjectMetadata metadata = s3Client.getObjectMetadata(bucketName, videoPath);
 
             return new VideoMetadata(
-                videoId,
+                    videoPath,
                 metadata.getContentLength(),
                 metadata.getContentType(),
                 metadata.getLastModified().toString()
@@ -108,9 +103,9 @@ public class S3StorageAdapter {
 
         } catch (AmazonS3Exception e) {
             if (e.getStatusCode() == 404) {
-                throw new VideoNotFoundException("Video not found in S3: " + videoId, e);
+                throw new VideoNotFoundException("Video not found in S3: " + videoPath, e);
             }
-            throw new S3OperationException("Failed to get video metadata: " + videoId, e);
+            throw new S3OperationException("Failed to get video metadata: " + videoPath, e);
         }
     }
 

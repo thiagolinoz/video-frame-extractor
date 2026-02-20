@@ -18,7 +18,7 @@ public class VideoStatusProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${kafka.producer.topic.video-status:video-status}")
+    @Value("${kafka.producer.topic.video-status:process-status-videos}")
     private String videoStatusTopic;
 
     public void publishProcessingStatus(VideoMessage videoMessage) {

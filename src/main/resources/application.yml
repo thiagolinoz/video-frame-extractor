@@ -15,8 +15,8 @@ kafka:
   producer:
     retries: 3
     acks: all
-  topics:
-    process-status: process-status-videos
+    topic:
+      video-status: process-status-videos
 
 # AWS S3 Configuration (conforme diagrama)
 app:
