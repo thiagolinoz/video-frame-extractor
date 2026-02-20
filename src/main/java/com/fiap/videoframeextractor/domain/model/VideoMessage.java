@@ -1,5 +1,6 @@
 package com.fiap.videoframeextractor.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,9 @@ public class VideoMessage {
     private String nmVideo;
     private String nmVideoPathOrigin;
     private String nmVideoPathZip;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private Date dateTimeVideoCreated;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC")
     private Date dateTimeVideoProcessCompleted;
     private String nmPersonName;
 
