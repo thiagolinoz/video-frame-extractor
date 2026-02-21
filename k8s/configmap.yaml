@@ -4,7 +4,7 @@ metadata:
   name: video-frame-extractor-config
 data:
   spring.profiles.active: "prod"
-  kafka.bootstrap-servers: "98.90.200.214:9094"
+  kafka.bootstrap-servers: "100.53.138.200:9094"
   kafka.enabled: "true"
   app.aws.s3.enabled: "true"
   app.aws.s3.bucket-name: "postech-fiap-bucket-videos-fase5"
