@@ -1,9 +1,19 @@
-FROM eclipse-temurin:21-jdk-alpine
+# Imagem base com Java 21 e FFmpeg
+FROM eclipse-temurin:21-jre-jammy
 
-RUN apk add --no-cache ffmpeg
+# Instalar FFmpeg
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
 
-COPY target/videoFrameExtractor-0.0.1-SNAPSHOT.jar app.jar
+# Definir diretório de trabalho
+WORKDIR /app
 
-EXPOSE 8085
+# Copiar JAR da aplicação
+COPY target/videoFrameExtractor-*.jar app.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Expor porta
+EXPOSE 8080
+
+# Executar aplicação
+CMD ["java", "-jar", "app.jar"]
