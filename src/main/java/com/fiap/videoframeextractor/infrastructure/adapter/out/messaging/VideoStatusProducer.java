@@ -32,12 +32,13 @@ public class VideoStatusProducer {
         publishStatus(statusMessage, "PROCESSING");
     }
 
-    public void publishCompletedStatus(VideoMessage videoMessage) {
+    public void publishCompletedStatus(VideoMessage videoMessage, String zipPath) {
         VideoStatusMessage statusMessage = VideoStatusMessage.completed(
                 videoMessage.getIdVideoSend(),
                 videoMessage.getNmPersonEmail(),
                 videoMessage.getNmVideo(),
-                videoMessage.getNmPersonName()
+                videoMessage.getNmPersonName(),
+                zipPath
         );
 
         publishStatus(statusMessage, "COMPLETED");

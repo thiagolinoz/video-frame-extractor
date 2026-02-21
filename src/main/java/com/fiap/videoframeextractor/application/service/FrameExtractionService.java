@@ -20,7 +20,7 @@ public class FrameExtractionService {
     private static final int DEFAULT_MAX_FRAMES = 100;
     private static final double DEFAULT_INTERVAL = 1.0;
 
-    public void processVideo(VideoMessage videoMessage) {
+    public String processVideo(VideoMessage videoMessage) {
         String videoId = videoMessage.getIdVideoSend();
         String fileName = videoMessage.getNmVideo();
         String videoPath = videoMessage.getNmVideoPathOrigin();
@@ -56,7 +56,7 @@ public class FrameExtractionService {
             log.info("Upload concluído. Caminho: {}", zipPath);
 
             log.info("=== PROCESSAMENTO CONCLUÍDO COM SUCESSO ===");
-
+            return zipPath;
         } catch (Exception e) {
             log.error("=== ERRO NO PROCESSAMENTO ===");
             log.error("Erro ao processar vídeo {}: {}", videoId, e.getMessage(), e);
