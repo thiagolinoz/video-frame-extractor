@@ -17,12 +17,6 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(name = "app.aws.s3.enabled", havingValue = "true", matchIfMissing = true)
 public class AwsS3Config {
 
-    @Value("${app.aws.access-key:test}")
-    private String accessKey;
-
-    @Value("${app.aws.secret-key:test}")
-    private String secretKey;
-
     @Value("${app.aws.region:us-east-1}")
     private String region;
 
@@ -32,20 +26,16 @@ public class AwsS3Config {
     @Value("${app.aws.s3.path-style-access:false}")
     private boolean pathStyleAccessEnabled;
 
-    @Bean
-    public AmazonS3 amazonS3Client() {
-        log.info("Initializing AWS S3 client for region: {}", region);
-
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+    @Bean public AmazonS3 amazonS3Client() {
+        //log.info("Initializing AWS S3 client for region: {}", region);
 
         AmazonS3ClientBuilder builder = AmazonS3ClientBuilder.standard()
-            .withCredentials(new AWSStaticCredentialsProvider(credentials))
-            .withPathStyleAccessEnabled(pathStyleAccessEnabled);
+                .withPathStyleAccessEnabled(pathStyleAccessEnabled);
 
         if (s3Endpoint != null && !s3Endpoint.trim().isEmpty()) {
-            log.info("Using custom S3 endpoint: {}", s3Endpoint);
+            //log.info("Using custom S3 endpoint: {}", s3Endpoint);
             builder.withEndpointConfiguration(
-                new AwsClientBuilder.EndpointConfiguration(s3Endpoint, region)
+                    new AwsClientBuilder.EndpointConfiguration(s3Endpoint, region)
             );
         } else {
             builder.withRegion(region);
@@ -53,7 +43,8 @@ public class AwsS3Config {
 
         AmazonS3 s3Client = builder.build();
 
-        log.info("AWS S3 client initialized successfully");
+        //log.info("AWS S3 client initialized successfully");
         return s3Client;
     }
+
 }
