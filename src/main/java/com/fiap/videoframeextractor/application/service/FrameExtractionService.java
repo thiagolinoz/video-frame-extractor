@@ -21,8 +21,8 @@ public class FrameExtractionService {
     private static final double DEFAULT_INTERVAL = 1.0;
 
     public void processVideo(VideoMessage videoMessage) {
-        String videoId = videoMessage.getVideoId();
-        String fileName = videoMessage.getFileName();
+        String videoId = videoMessage.getIdVideoSend();
+        String fileName = videoMessage.getNmVideo();
         String videoPath = videoMessage.getNmVideoPathOrigin();
 
         log.info("=== INICIANDO PROCESSAMENTO DE FRAMES ===");

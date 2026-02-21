@@ -42,10 +42,10 @@ public class VideoMessageConsumer {
             VideoMessage videoMessage = objectMapper.readValue(message, VideoMessage.class);
 
             log.info("Vídeo recebido para processamento:");
-            log.info("- ID: {}", videoMessage.getVideoId());
-            log.info("- Arquivo: {}", videoMessage.getFileName());
-            log.info("- Usuário: {}", videoMessage.getUserEmail());
-            log.info("- Caminho S3: {}", videoMessage.getVideoPath());
+            log.info("- ID: {}", videoMessage.getIdVideoSend());
+            log.info("- Arquivo: {}", videoMessage.getNmVideo());
+            log.info("- Usuário: {}", videoMessage.getNmPersonEmail());
+            log.info("- Caminho S3: {}", videoMessage.getNmVideoPathOrigin());
 
             if (!videoMessage.isValidForProcessing()) {
                 log.error("Mensagem inválida para processamento: {}", videoMessage);
@@ -62,7 +62,7 @@ public class VideoMessageConsumer {
             acknowledgment.acknowledge();
 
             log.info("=== PROCESSAMENTO CONCLUÍDO COM SUCESSO ===");
-            log.info("Vídeo ID: {}", videoMessage.getVideoId());
+            log.info("Vídeo ID: {}", videoMessage.getIdVideoSend());
 
         } catch (Exception e) {
             log.error("=== ERRO NO PROCESSAMENTO ===");
