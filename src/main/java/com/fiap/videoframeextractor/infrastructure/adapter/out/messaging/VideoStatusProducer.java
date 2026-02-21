@@ -1,5 +1,7 @@
 package com.fiap.videoframeextractor.infrastructure.adapter.out.messaging;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fiap.videoframeextractor.domain.model.VideoMessage;
 import com.fiap.videoframeextractor.domain.model.VideoStatusMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -59,6 +61,8 @@ public class VideoStatusProducer {
 
     private void publishStatus(VideoStatusMessage statusMessage, String logType) {
         try {
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             String messageJson = objectMapper.writeValueAsString(statusMessage);
 
             log.info("=== PUBLICANDO STATUS {} ===", logType);
