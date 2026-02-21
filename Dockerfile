@@ -17,7 +17,7 @@ COPY src src
 RUN mvn clean package -DskipTests -B
 
 # Runtime stage
-FROM amazoncorretto:21-alpine-jdk AS runtime
+FROM amazoncorretto-21 AS runtime
 
 # Install FFmpeg and create user in single layer
 RUN apk add --no-cache ffmpeg shadow && \
