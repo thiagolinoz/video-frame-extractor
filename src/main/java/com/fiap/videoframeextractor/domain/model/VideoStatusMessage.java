@@ -54,9 +54,9 @@ public class VideoStatusMessage {
             .build();
     }
 
-    public String getVideoId() { return idVideoSend; }
-    public String getUserEmail() { return nmPersonEmail; }
-    public String getFileName() { return nmVideo; }
-    public String getUserName() { return nmPersonName; }
-    public String getStatus() { return cdVideoStatus; }
+//    public String getVideoId() { return idVideoSend; }
+//    public String getUserEmail() { return nmPersonEmail; }
+//    public String getFileName() { return nmVideo; }
+//    public String getUserName() { return nmPersonName; }
+//    public String getStatus() { return cdVideoStatus; }
 }

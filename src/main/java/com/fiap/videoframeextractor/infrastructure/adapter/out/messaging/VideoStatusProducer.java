@@ -23,10 +23,10 @@ public class VideoStatusProducer {
 
     public void publishProcessingStatus(VideoMessage videoMessage) {
         VideoStatusMessage statusMessage = VideoStatusMessage.processing(
-            videoMessage.getVideoId(),
-            videoMessage.getUserEmail(),
-            videoMessage.getFileName(),
-            videoMessage.getUserName()
+                videoMessage.getIdVideoSend(),
+                videoMessage.getNmPersonEmail(),
+                videoMessage.getNmVideo(),
+                videoMessage.getNmPersonName()
         );
 
         publishStatus(statusMessage, "PROCESSING");
@@ -34,10 +34,10 @@ public class VideoStatusProducer {
 
     public void publishCompletedStatus(VideoMessage videoMessage) {
         VideoStatusMessage statusMessage = VideoStatusMessage.completed(
-            videoMessage.getVideoId(),
-            videoMessage.getUserEmail(),
-            videoMessage.getFileName(),
-            videoMessage.getUserName()
+                videoMessage.getIdVideoSend(),
+                videoMessage.getNmPersonEmail(),
+                videoMessage.getNmVideo(),
+                videoMessage.getNmPersonName()
         );
 
         publishStatus(statusMessage, "COMPLETED");
@@ -45,10 +45,10 @@ public class VideoStatusProducer {
 
     public void publishErrorStatus(VideoMessage videoMessage, String errorMessage) {
         VideoStatusMessage statusMessage = VideoStatusMessage.error(
-            videoMessage.getVideoId(),
-            videoMessage.getUserEmail(),
-            videoMessage.getFileName(),
-            videoMessage.getUserName()
+                videoMessage.getIdVideoSend(),
+                videoMessage.getNmPersonEmail(),
+                videoMessage.getNmVideo(),
+                videoMessage.getNmPersonName()
         );
 
         statusMessage.setErrorMessage(errorMessage);
@@ -62,21 +62,21 @@ public class VideoStatusProducer {
 
             log.info("=== PUBLICANDO STATUS {} ===", logType);
             log.info("Topic: {}", videoStatusTopic);
-            log.info("VideoId: {}", statusMessage.getVideoId());
-            log.info("Status: {}", statusMessage.getStatus());
+            log.info("VideoId: {}", statusMessage.getIdVideoSend());
+            log.info("Status: {}", statusMessage.getCdVideoStatus());
             log.info("Payload: {}", messageJson);
 
-            kafkaTemplate.send(videoStatusTopic, statusMessage.getVideoId(), messageJson)
-                .whenComplete((result, ex) -> {
-                    if (ex != null) {
-                        log.error("Erro ao publicar status {}: {}", logType, ex.getMessage(), ex);
-                    } else {
-                        log.info("Status {} publicado com sucesso: partition={}, offset={}",
-                            logType,
-                            result != null ? result.getRecordMetadata().partition() : "unknown",
-                            result != null ? result.getRecordMetadata().offset() : "unknown");
-                    }
-                });
+            kafkaTemplate.send(videoStatusTopic, statusMessage.getIdVideoSend(), messageJson)
+                    .whenComplete((result, ex) -> {
+                        if (ex != null) {
+                            log.error("Erro ao publicar status {}: {}", logType, ex.getMessage(), ex);
+                        } else {
+                            log.info("Status {} publicado com sucesso: partition={}, offset={}",
+                                    logType,
+                                    result != null ? result.getRecordMetadata().partition() : "unknown",
+                                    result != null ? result.getRecordMetadata().offset() : "unknown");
+                        }
+                    });
 
         } catch (JsonProcessingException e) {
             log.error("Erro ao serializar mensagem de status {}: {}", logType, e.getMessage(), e);

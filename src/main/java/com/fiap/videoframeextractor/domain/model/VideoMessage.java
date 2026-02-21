@@ -35,23 +35,23 @@ public class VideoMessage {
                nmVideoPathOrigin != null;
     }
 
-    public String getVideoId() {
-        return idVideoSend;
-    }
-
-    public String getFileName() {
-        return nmVideo;
-    }
-
-    public String getUserEmail() {
-        return nmPersonEmail;
-    }
-
-    public String getVideoPath() {
-        return nmVideoPathOrigin;
-    }
-
-    public String getUserName() {
-        return nmPersonName;
-    }
+//    public String getVideoId() {
+//        return idVideoSend;
+//    }
+//
+//    public String getFileName() {
+//        return nmVideo;
+//    }
+//
+//    public String getUserEmail() {
+//        return nmPersonEmail;
+//    }
+//
+//    public String getVideoPath() {
+//        return nmVideoPathOrigin;
+//    }
+//
+//    public String getUserName() {
+//        return nmPersonName;
+//    }
 }
