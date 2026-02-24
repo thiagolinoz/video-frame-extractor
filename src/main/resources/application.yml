@@ -9,7 +9,7 @@ kafka:
   enabled: true
   bootstrap-servers: 100.52.199.228:9094  # Mesmo servidor do video-app
   consumer:
-    group-id: video-frame-extractor-group-teste
+    group-id: video-frame-extractor-group
     auto-offset-reset: earliest
     enable-auto-commit: false
   producer:

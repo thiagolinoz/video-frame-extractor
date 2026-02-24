@@ -25,7 +25,7 @@ public class KafkaConfig {
     @Value("${kafka.bootstrap-servers:100.52.199.228:9094}")
     private String bootstrapServers;
 
-    @Value("${kafka.consumer.group-id:video-frame-extractor-group-teste}")
+    @Value("${kafka.consumer.group-id:video-frame-extractor-group}")
     private String groupId;
 
 
