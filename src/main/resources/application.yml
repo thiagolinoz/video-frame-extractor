@@ -7,7 +7,7 @@ spring:
 # Kafka Configuration (conforme diagrama)
 kafka:
   enabled: true
-  bootstrap-servers: 98.88.247.182:9094  # Mesmo servidor do video-app
+  bootstrap-servers: 100.52.199.228:9094  # Mesmo servidor do video-app
   consumer:
     group-id: video-frame-extractor-group-teste
     auto-offset-reset: earliest
