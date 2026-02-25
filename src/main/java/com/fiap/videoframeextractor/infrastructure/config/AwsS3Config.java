@@ -21,18 +21,19 @@ import software.amazon.awssdk.transfer.s3.S3TransferManager;
 
 
 @Configuration
-@Slf4j
-@ConditionalOnProperty(name = "app.aws.s3.enabled", havingValue = "true", matchIfMissing = true)
+//@Slf4j
+//@ConditionalOnProperty(name = "app.aws.s3.enabled", havingValue = "true", matchIfMissing = true)
 public class AwsS3Config {
 
     @Value("${app.aws.region:us-east-1}")
     private String region;
 
-    @Value("${app.aws.s3.endpoint:}")
+    @Value("${app.aws.s3.endpoint}")
     private String s3Endpoint;
 
     @Value("${app.aws.s3.path-style-access:false}")
     private boolean pathStyleAccessEnabled;
+
     @Bean
     public S3AsyncClient s3AsyncClient() {
 

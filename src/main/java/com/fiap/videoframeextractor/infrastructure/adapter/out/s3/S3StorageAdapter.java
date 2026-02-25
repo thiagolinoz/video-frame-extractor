@@ -2,6 +2,7 @@ package com.fiap.videoframeextractor.infrastructure.adapter.out.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class S3StorageAdapter {
 
