@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class FrameExtractionService {
 
-    private final S3StorageAdapter s3StorageAdapter;
-    private final FFmpegFrameExtractor frameExtractor;
+    //private final S3StorageAdapter s3StorageAdapter;
+    //private final FFmpegFrameExtractor frameExtractor;
 
     private static final long MAX_FILE_SIZE = 100 * 1024 * 1024;
     private static final String[] SUPPORTED_FORMATS = {"mp4", "avi", "mov", "mkv"};
