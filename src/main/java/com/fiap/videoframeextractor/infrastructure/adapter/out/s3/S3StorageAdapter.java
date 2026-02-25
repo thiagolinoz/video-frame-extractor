@@ -13,7 +13,6 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Slf4j
 public class S3StorageAdapter {
 
