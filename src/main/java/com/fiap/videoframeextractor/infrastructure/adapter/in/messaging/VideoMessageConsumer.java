@@ -55,7 +55,7 @@ public class VideoMessageConsumer {
 
             statusProducer.publishProcessingStatus(videoMessage);
 
-            String zipPath = frameExtractionService.processVideo(videoMessage);
+            String zipPath = "any"; //frameExtractionService.processVideo(videoMessage);
 
             statusProducer.publishCompletedStatus(videoMessage, zipPath);
 
