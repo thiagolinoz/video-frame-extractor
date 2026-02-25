@@ -1,5 +1,6 @@
 package com.fiap.videoframeextractor.infrastructure.adapter.out.s3;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import lombok.AllArgsConstructor;
@@ -11,14 +12,14 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-@Component
-@RequiredArgsConstructor
-@Slf4j
+//@Component
+//@RequiredArgsConstructor
+//@Slf4j
 public class S3StorageAdapter {
 
-    private final AmazonS3 s3Client;
+    /*private final AmazonS3 s3Client;
 
-    @Value("${app.aws.s3.bucket-name:postech-fiap-bucket-videos-fase5-2}")
+    @Value("${app.aws.s3.bucket-name:postech-fiap-bucket-videos-fase5}")
     private String bucketName;
 
     @Value("${app.aws.s3.videos-prefix:videos/}")
@@ -42,7 +43,7 @@ public class S3StorageAdapter {
                 throw new VideoNotFoundException("Video not found in S3: " + videoPath, e);
             }
             throw new S3OperationException("Failed to download video from S3: " + videoPath, e);
-        } catch (IOException e) {
+        } catch (IOException | SdkClientException e) {
             throw new S3OperationException("Failed to read video content: " + videoPath, e);
         }
     }
@@ -73,7 +74,7 @@ public class S3StorageAdapter {
                 frameKey, result != null ? result.getETag() : "no-etag");
             return frameKey;
 
-        } catch (AmazonS3Exception e) {
+        } catch (SdkClientException e) {
             throw new S3OperationException("Failed to upload frames ZIP to S3: " + videoId, e);
         }
     }
@@ -102,7 +103,7 @@ public class S3StorageAdapter {
                 metadata.getLastModified().toString()
             );
 
-        } catch (AmazonS3Exception e) {
+        } catch (SdkClientException e) {
             if (e.getStatusCode() == 404) {
                 throw new VideoNotFoundException("Video not found in S3: " + videoPath, e);
             }
@@ -140,5 +141,5 @@ public class S3StorageAdapter {
         public VideoNotFoundException(String message, Throwable cause) {
             super(message, cause);
         }
-    }
+    }*/
 }
