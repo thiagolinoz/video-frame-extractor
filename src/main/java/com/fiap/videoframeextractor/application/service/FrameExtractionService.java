@@ -20,7 +20,7 @@ public class FrameExtractionService {
     private static final int DEFAULT_MAX_FRAMES = 100;
     private static final double DEFAULT_INTERVAL = 1.0;
 
-    public String processVideo(VideoMessage videoMessage) {
+    /*public String processVideo(VideoMessage videoMessage) {
         String videoId = videoMessage.getIdVideoSend();
         String fileName = videoMessage.getNmVideo();
         String videoPath = videoMessage.getNmVideoPathOrigin();
@@ -125,5 +125,5 @@ public class FrameExtractionService {
         public VideoProcessingException(String message, Throwable cause) {
             super(message, cause);
         }
-    }
+    }*/
 }
