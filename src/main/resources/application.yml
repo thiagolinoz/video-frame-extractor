@@ -26,7 +26,7 @@ app:
     region: ${AWS_REGION:us-east-1}
     s3:
       enabled: true
-      bucket-name: postech-fiap-bucket-videos-fase5  # Mesmo bucket do video-app
+      bucket-name: postech-fiap-bucket-videos-fase5-2  # Mesmo bucket do video-app
       videos-prefix: videos/
       frames-prefix: frames/
       endpoint: ${AWS_S3_ENDPOINT:}
