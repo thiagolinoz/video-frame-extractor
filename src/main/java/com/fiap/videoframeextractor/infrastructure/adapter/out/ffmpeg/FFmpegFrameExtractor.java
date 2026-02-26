@@ -89,7 +89,9 @@ public class FFmpegFrameExtractor implements FrameExtractorPort {
                 if (frame.image != null && frameCount % frameInterval == 0) {
                     BufferedImage bufferedImage = converter.getBufferedImage(frame);
                     if (bufferedImage != null) {
-                        frames.add(bufferedImage);
+                        // Criar cópia profunda do BufferedImage para evitar sobrescrita
+                        BufferedImage copy = deepCopy(bufferedImage);
+                        frames.add(copy);
                         extractedCount++;
                         log.debug("Frame extraído: {}/{}", extractedCount, maxFrames);
                     }
@@ -152,5 +154,23 @@ public class FFmpegFrameExtractor implements FrameExtractorPort {
             return fileName;
         }
         return fileName.substring(0, lastDot);
+    }
+
+    /**
+     * Cria uma cópia profunda do BufferedImage para evitar que o FFmpeg
+     * sobrescreva o buffer interno entre frames
+     */
+    private BufferedImage deepCopy(BufferedImage source) {
+        BufferedImage copy = new BufferedImage(
+            source.getWidth(),
+            source.getHeight(),
+            source.getType()
+        );
+        
+        java.awt.Graphics2D g = copy.createGraphics();
+        g.drawImage(source, 0, 0, null);
+        g.dispose();
+        
+        return copy;
     }
 }

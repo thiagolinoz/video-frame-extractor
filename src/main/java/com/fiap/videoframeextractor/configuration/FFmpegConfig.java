@@ -11,7 +11,7 @@ import java.io.File;
 @Slf4j
 public class FFmpegConfig {
 
-    @Value("${ffmpeg.path:/usr/bin/ffmpeg}")
+    @Value("${ffmpeg.path:ffmpeg}")
     private String ffmpegPath;
 
     @Value("${frame.extraction.output-dir:./frames}")
@@ -22,7 +22,7 @@ public class FFmpegConfig {
         // Verify FFmpeg installation
         File ffmpegFile = new File(ffmpegPath);
         if (!ffmpegFile.exists()) {
-            log.warn("FFmpeg not found at: {}. Frame extraction may fail if FFmpeg is not in PATH.", ffmpegPath);
+            log.warn("FFmpeg not found at: {}. Attempting to use FFmpeg from PATH.", ffmpegPath);
         } else {
             log.info("FFmpeg found at: {}", ffmpegPath);
         }
@@ -39,5 +39,13 @@ public class FFmpegConfig {
         } else {
             log.info("Output directory exists: {}", outputDirectory);
         }
+    }
+    
+    public String getFfmpegPath() {
+        return ffmpegPath;
+    }
+    
+    public String getOutputDirectory() {
+        return outputDirectory;
     }
 }
