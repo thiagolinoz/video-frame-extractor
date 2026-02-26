@@ -12,12 +12,12 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-//@Component
-//@RequiredArgsConstructor
-//@Slf4j
+@Component
+@RequiredArgsConstructor
+@Slf4j
 public class S3StorageAdapter {
 
-    /*private final AmazonS3 s3Client;
+    private final AmazonS3 s3Client;
 
     @Value("${app.aws.s3.bucket-name:postech-fiap-bucket-videos-fase5}")
     private String bucketName;
@@ -103,7 +103,7 @@ public class S3StorageAdapter {
                 metadata.getLastModified().toString()
             );
 
-        } catch (SdkClientException e) {
+        } catch (AmazonS3Exception e) {
             if (e.getStatusCode() == 404) {
                 throw new VideoNotFoundException("Video not found in S3: " + videoPath, e);
             }
@@ -141,5 +141,5 @@ public class S3StorageAdapter {
         public VideoNotFoundException(String message, Throwable cause) {
             super(message, cause);
         }
-    }*/
+    }
 }

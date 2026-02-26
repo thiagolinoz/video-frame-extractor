@@ -18,41 +18,34 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(name = "app.aws.s3.enabled", havingValue = "true", matchIfMissing = true)
 public class AwsS3Config {
 
-    @Bean
-    public AmazonS3 amazonS3Client() {
-        return AmazonS3ClientBuilder.standard()
-                .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
-                .build();
-    }
+    @Value("${app.aws.region:us-east-1}")
+    private String region;
 
-//    @Value("${app.aws.region:us-east-1}")
-//    private String region;
-//
-//    @Value("${app.aws.s3.endpoint:}")
-//    private String s3Endpoint;
-//
-//    @Value("${app.aws.s3.path-style-access:false}")
-//    private boolean pathStyleAccessEnabled;
-//
-//    @Bean public AmazonS3 amazonS3Client() {
-//        //log.info("Initializing AWS S3 client for region: {}", region);
-//
-//        AmazonS3ClientBuilder builder = AmazonS3ClientBuilder.standard()
-//                .withPathStyleAccessEnabled(pathStyleAccessEnabled);
-//
-//        if (s3Endpoint != null && !s3Endpoint.trim().isEmpty()) {
-//            //log.info("Using custom S3 endpoint: {}", s3Endpoint);
-//            builder.withEndpointConfiguration(
-//                    new AwsClientBuilder.EndpointConfiguration(s3Endpoint, region)
-//            );
-//        } else {
-//            builder.withRegion(region);
-//        }
-//
-//        AmazonS3 s3Client = builder.build();
-//
-//        //log.info("AWS S3 client initialized successfully");
-//        return s3Client;
-//    }
+    @Value("${app.aws.s3.endpoint:}")
+    private String s3Endpoint;
+
+    @Value("${app.aws.s3.path-style-access:false}")
+    private boolean pathStyleAccessEnabled;
+
+    @Bean public AmazonS3 amazonS3Client() {
+        //log.info("Initializing AWS S3 client for region: {}", region);
+
+        AmazonS3ClientBuilder builder = AmazonS3ClientBuilder.standard()
+                .withPathStyleAccessEnabled(pathStyleAccessEnabled);
+
+        if (s3Endpoint != null && !s3Endpoint.trim().isEmpty()) {
+            //log.info("Using custom S3 endpoint: {}", s3Endpoint);
+            builder.withEndpointConfiguration(
+                    new AwsClientBuilder.EndpointConfiguration(s3Endpoint, region)
+            );
+        } else {
+            builder.withRegion(region);
+        }
+
+        AmazonS3 s3Client = builder.build();
+
+        //log.info("AWS S3 client initialized successfully");
+        return s3Client;
+    }
 
 }
