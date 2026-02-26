@@ -45,7 +45,7 @@ public class VideoStatusMessage {
                 .nmVideo(fileName)
                 .nmPersonName(userName)
                 .nmVideoPathZip(nmVideoPathZip)
-                .dateTimeVideoProcessCompleted(LocalDateTime.now())
+                .dateTimeVideoProcessCompleted(Date.from(Instant.now()))
                 .build();
     }
 
