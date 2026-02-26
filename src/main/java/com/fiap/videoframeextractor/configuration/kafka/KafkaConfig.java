@@ -22,7 +22,7 @@ import java.util.Map;
 @ConditionalOnProperty(name = "kafka.enabled", havingValue = "true", matchIfMissing = true)
 public class KafkaConfig {
 
-    @Value("${spring.kafka.bootstrap-servers:100.52.199.228:9094}")
+    @Value("${spring.kafka.bootstrap-servers:10.0.14.140:9092}")
     private String bootstrapServers;
 
     @Value("${spring.kafka.consumer.group-id:video-frame-extractor-group}")
