@@ -2,7 +2,10 @@ package com.fiap.videoframeextractor.infrastructure.adapter.out.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
-import lombok.AllArgsConstructor;
+import com.fiap.videoframeextractor.domain.exceptions.StorageException;
+import com.fiap.videoframeextractor.domain.exceptions.VideoNotFoundException;
+import com.fiap.videoframeextractor.domain.model.VideoMetadata;
+import com.fiap.videoframeextractor.domain.ports.out.VideoStoragePort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +17,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class S3StorageAdapter {
+public class S3StorageAdapter implements VideoStoragePort {
 
     private final AmazonS3 s3Client;
 
@@ -27,6 +30,7 @@ public class S3StorageAdapter {
     @Value("${app.aws.s3.frames-prefix:frames/}")
     private String framesPrefix;
 
+    @Override
     public byte[] downloadVideo(String videoPath) {
         try {
             log.info("Downloading video from S3: bucket={}, key={}", bucketName, videoPath);
@@ -41,12 +45,13 @@ public class S3StorageAdapter {
             if (e.getStatusCode() == 404) {
                 throw new VideoNotFoundException("Video not found in S3: " + videoPath, e);
             }
-            throw new S3OperationException("Failed to download video from S3: " + videoPath, e);
+            throw new StorageException("Failed to download video from S3: " + videoPath, e);
         } catch (IOException e) {
-            throw new S3OperationException("Failed to read video content: " + videoPath, e);
+            throw new StorageException("Failed to read video content: " + videoPath, e);
         }
     }
 
+    @Override
     public String uploadFramesZip(String videoId, byte[] zipData) {
         String frameKey = framesPrefix + videoId + ".zip";
 
@@ -74,10 +79,11 @@ public class S3StorageAdapter {
             return frameKey;
 
         } catch (AmazonS3Exception e) {
-            throw new S3OperationException("Failed to upload frames ZIP to S3: " + videoId, e);
+            throw new StorageException("Failed to upload frames ZIP to S3: " + videoId, e);
         }
     }
 
+    @Override
     public boolean videoExists(String videoPath) {
         try {
             s3Client.getObjectMetadata(bucketName, videoPath);
@@ -86,59 +92,27 @@ public class S3StorageAdapter {
             if (e.getStatusCode() == 404) {
                 return false;
             }
-            throw new S3OperationException("Failed to check video existence: " + videoPath, e);
+            throw new StorageException("Failed to check video existence: " + videoPath, e);
         }
     }
 
+    @Override
     public VideoMetadata getVideoMetadata(String videoPath) {
-
         try {
             ObjectMetadata metadata = s3Client.getObjectMetadata(bucketName, videoPath);
 
-            return new VideoMetadata(
-                    videoPath,
-                metadata.getContentLength(),
-                metadata.getContentType(),
-                metadata.getLastModified().toString()
-            );
+            return VideoMetadata.builder()
+                .path(videoPath)
+                .fileName(videoPath.substring(videoPath.lastIndexOf('/') + 1))
+                .size(metadata.getContentLength())
+                .contentType(metadata.getContentType())
+                .build();
 
         } catch (AmazonS3Exception e) {
             if (e.getStatusCode() == 404) {
                 throw new VideoNotFoundException("Video not found in S3: " + videoPath, e);
             }
-            throw new S3OperationException("Failed to get video metadata: " + videoPath, e);
-        }
-    }
-
-
-    public static class VideoMetadata {
-        private final String videoId;
-        private final long size;
-        private final String contentType;
-        private final String lastModified;
-
-        public VideoMetadata(String videoId, long size, String contentType, String lastModified) {
-            this.videoId = videoId;
-            this.size = size;
-            this.contentType = contentType;
-            this.lastModified = lastModified;
-        }
-
-        public String getVideoId() { return videoId; }
-        public long getSize() { return size; }
-        public String getContentType() { return contentType; }
-        public String getLastModified() { return lastModified; }
-    }
-
-    public static class S3OperationException extends RuntimeException {
-        public S3OperationException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
-
-    public static class VideoNotFoundException extends RuntimeException {
-        public VideoNotFoundException(String message, Throwable cause) {
-            super(message, cause);
+            throw new StorageException("Failed to get video metadata: " + videoPath, e);
         }
     }
 }

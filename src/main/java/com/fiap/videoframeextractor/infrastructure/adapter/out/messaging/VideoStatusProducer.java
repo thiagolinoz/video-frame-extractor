@@ -56,7 +56,7 @@ public class VideoStatusProducer {
 
         statusMessage.setErrorMessage(errorMessage);
 
-        publishStatus(statusMessage, "ERROR");
+        publishStatus(statusMessage, "PROCESS_ERROR");
     }
 
     private void publishStatus(VideoStatusMessage statusMessage, String logType) {

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -21,7 +20,7 @@ public class VideoStatusMessage {
     private String nmVideo;
     private String nmPersonName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Instant dateTimeVideoProcessCompleted;
+    private Date dateTimeVideoProcessCompleted;
     private String nmVideoPathZip;
     private String errorMessage;
 //    private LocalDateTime timestamp;
@@ -45,7 +44,7 @@ public class VideoStatusMessage {
                 .nmVideo(fileName)
                 .nmPersonName(userName)
                 .nmVideoPathZip(nmVideoPathZip)
-                .dateTimeVideoProcessCompleted(Instant.now())
+                .dateTimeVideoProcessCompleted(Date.from(Instant.now()))
                 .build();
     }
 

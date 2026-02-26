@@ -1,5 +1,7 @@
 package com.fiap.videoframeextractor.infrastructure.adapter.out.ffmpeg;
 
+import com.fiap.videoframeextractor.domain.exceptions.FrameExtractionException;
+import com.fiap.videoframeextractor.domain.ports.out.FrameExtractorPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
@@ -22,8 +24,9 @@ import java.util.zip.ZipOutputStream;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class FFmpegFrameExtractor {
+public class FFmpegFrameExtractor implements FrameExtractorPort {
 
+    @Override
     public byte[] extractFramesToZip(byte[] videoData, String fileName, double intervalSeconds, int maxFrames) {
         log.info("Iniciando extração de frames: arquivo={}, intervalo={}s, maxFrames={}",
                 fileName, intervalSeconds, maxFrames);
@@ -149,11 +152,5 @@ public class FFmpegFrameExtractor {
             return fileName;
         }
         return fileName.substring(0, lastDot);
-    }
-
-    public static class FrameExtractionException extends RuntimeException {
-        public FrameExtractionException(String message, Throwable cause) {
-            super(message, cause);
-        }
     }
 }

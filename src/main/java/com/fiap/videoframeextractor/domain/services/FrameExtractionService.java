@@ -1,8 +1,12 @@
-package com.fiap.videoframeextractor.application.service;
+package com.fiap.videoframeextractor.domain.services;
 
+import com.fiap.videoframeextractor.domain.exceptions.VideoProcessingException;
 import com.fiap.videoframeextractor.domain.model.VideoMessage;
-import com.fiap.videoframeextractor.infrastructure.adapter.out.s3.S3StorageAdapter;
-import com.fiap.videoframeextractor.infrastructure.adapter.out.ffmpeg.FFmpegFrameExtractor;
+import com.fiap.videoframeextractor.domain.model.VideoMetadata;
+import com.fiap.videoframeextractor.domain.ports.in.FrameExtractionServicePort;
+import com.fiap.videoframeextractor.domain.ports.out.FrameExtractorPort;
+import com.fiap.videoframeextractor.domain.ports.out.VideoStoragePort;
+import com.fiap.videoframeextractor.infrastructure.commons.mappers.VideoMessageMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,16 +14,29 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FrameExtractionService {
+public class FrameExtractionService implements FrameExtractionServicePort {
 
-    private final S3StorageAdapter s3StorageAdapter;
-    private final FFmpegFrameExtractor frameExtractor;
+    private final VideoStoragePort videoStoragePort;
+    private final FrameExtractorPort frameExtractorPort;
+    private final VideoMessageMapper videoMessageMapper;
 
     private static final long MAX_FILE_SIZE = 100 * 1024 * 1024;
     private static final String[] SUPPORTED_FORMATS = {"mp4", "avi", "mov", "mkv"};
     private static final int DEFAULT_MAX_FRAMES = 100;
     private static final double DEFAULT_INTERVAL = 1.0;
 
+    @Override
+    public void processVideoMessage(String message) {
+        try {
+            VideoMessage videoMessage = videoMessageMapper.toDomain(message);
+            processVideo(videoMessage);
+        } catch (Exception e) {
+            log.error("Error processing video message: {}", message, e);
+            throw new VideoProcessingException("Failed to process video message", e);
+        }
+    }
+
+    @Override
     public String processVideo(VideoMessage videoMessage) {
         String videoId = videoMessage.getIdVideoSend();
         String fileName = videoMessage.getNmVideo();
@@ -32,18 +49,18 @@ public class FrameExtractionService {
         try {
             validateVideoFormat(fileName);
 
-            if (!s3StorageAdapter.videoExists(videoPath)) {
+            if (!videoStoragePort.videoExists(videoPath)) {
                 throw new VideoProcessingException("Vídeo não encontrado no S3: " + videoId);
             }
 
             validateVideoSize(videoPath);
 
             log.info("Fazendo download do vídeo do S3...");
-            byte[] videoData = s3StorageAdapter.downloadVideo(videoPath);
+            byte[] videoData = videoStoragePort.downloadVideo(videoPath);
             log.info("Download concluído. Tamanho: {} bytes", videoData.length);
 
             log.info("Extraindo frames do vídeo...");
-            byte[] framesZip = frameExtractor.extractFramesToZip(
+            byte[] framesZip = frameExtractorPort.extractFramesToZip(
                 videoData,
                 fileName,
                 DEFAULT_INTERVAL,
@@ -52,7 +69,7 @@ public class FrameExtractionService {
             log.info("Extração concluída. ZIP gerado: {} bytes", framesZip.length);
 
             log.info("Fazendo upload do ZIP de frames para S3...");
-            String zipPath = s3StorageAdapter.uploadFramesZip(videoId, framesZip);
+            String zipPath = videoStoragePort.uploadFramesZip(videoId, framesZip);
             log.info("Upload concluído. Caminho: {}", zipPath);
 
             log.info("=== PROCESSAMENTO CONCLUÍDO COM SUCESSO ===");
@@ -91,7 +108,7 @@ public class FrameExtractionService {
 
     private void validateVideoSize(String videoPath) {
         try {
-            var metadata = s3StorageAdapter.getVideoMetadata(videoPath);
+            VideoMetadata metadata = videoStoragePort.getVideoMetadata(videoPath);
             long fileSize = metadata.getSize();
 
             if (fileSize > MAX_FILE_SIZE) {
@@ -103,6 +120,8 @@ public class FrameExtractionService {
 
             log.info("Tamanho do vídeo validado: {} bytes", fileSize);
 
+        } catch (VideoProcessingException e) {
+            throw e;
         } catch (Exception e) {
             log.warn("Não foi possível validar tamanho do vídeo: {}", e.getMessage());
             // RN3: Em caso de falha na validação, continua processamento mas notifica
@@ -115,15 +134,5 @@ public class FrameExtractionService {
             return "";
         }
         return fileName.substring(lastDot + 1);
-    }
-
-    public static class VideoProcessingException extends RuntimeException {
-        public VideoProcessingException(String message) {
-            super(message);
-        }
-
-        public VideoProcessingException(String message, Throwable cause) {
-            super(message, cause);
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.fiap.videoframeextractor.infrastructure.config;
+package com.fiap.videoframeextractor.configuration.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -19,15 +19,14 @@ import java.util.Map;
 
 @Configuration
 @EnableKafka
-@ConditionalOnProperty(name = "kafka.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "kafka.enabled", havingValue = "true", matchIfMissing = true)
 public class KafkaConfig {
 
-    @Value("${kafka.bootstrap-servers:100.52.199.228:9094}")
+    @Value("${spring.kafka.bootstrap-servers:100.52.199.228:9094}")
     private String bootstrapServers;
 
-    @Value("${kafka.consumer.group-id:video-frame-extractor-group}")
+    @Value("${spring.kafka.consumer.group-id:video-frame-extractor-group}")
     private String groupId;
-
 
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
@@ -47,7 +46,7 @@ public class KafkaConfig {
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
-        factory.setConcurrency(1); // Simplificado para 1 thread
+        factory.setConcurrency(1);
         return factory;
     }
 
@@ -66,7 +65,6 @@ public class KafkaConfig {
     public KafkaTemplate<String, String> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
-
 
     @Bean
     public ObjectMapper objectMapper() {

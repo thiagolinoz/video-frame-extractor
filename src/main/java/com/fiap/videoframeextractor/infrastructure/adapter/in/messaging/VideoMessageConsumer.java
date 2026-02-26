@@ -1,8 +1,8 @@
 package com.fiap.videoframeextractor.infrastructure.adapter.in.messaging;
 
 import com.fiap.videoframeextractor.domain.model.VideoMessage;
+import com.fiap.videoframeextractor.domain.ports.in.FrameExtractionServicePort;
 import com.fiap.videoframeextractor.infrastructure.adapter.out.messaging.VideoStatusProducer;
-import com.fiap.videoframeextractor.application.service.FrameExtractionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class VideoMessageConsumer {
 
-    private final FrameExtractionService frameExtractionService;
+    private final FrameExtractionServicePort frameExtractionService;
     private final VideoStatusProducer statusProducer;
     private final ObjectMapper objectMapper;
 
