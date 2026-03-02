@@ -21,7 +21,7 @@ public class S3StorageAdapter implements VideoStoragePort {
 
     private final AmazonS3 s3Client;
 
-    @Value("${app.aws.s3.bucket-name:postech-fiap-bucket-videos-fase5-2}")
+    @Value("${app.aws.s3.bucket-name:postech-fiap-bucket-videos-fase5}")
     private String bucketName;
 
     @Value("${app.aws.s3.videos-prefix:videos/}")
