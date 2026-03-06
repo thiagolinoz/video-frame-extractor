@@ -4,10 +4,10 @@ metadata:
   name: video-frame-extractor-config
 data:
   spring.profiles.active: "prod"
-  kafka.bootstrap-servers: "10.0.14.80:9092"
+  kafka.bootstrap-servers: "kafka.video.internal:9092"
   kafka.enabled: "true"
   app.aws.s3.enabled: "true"
-  app.aws.s3.bucket-name: "postech-fiap-bucket-videos-fase5"
+  app.aws.s3.bucket-name: "postech-fiap-bucket-videos-fase5-dns"
   app.aws.s3.videos-prefix: "videos/"
   app.aws.s3.frames-prefix: "frames/"
   app.aws.region: "us-east-1"
