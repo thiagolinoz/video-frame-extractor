@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: video-frame-extractor-config
+data:
+  spring.profiles.active: "prod"
+  kafka.bootstrap-servers: "kafka.video.internal:9092"
+  kafka.enabled: "true"
+  app.aws.s3.enabled: "true"
+  app.aws.s3.bucket-name: "postech-fiap-bucket-videos"
+  app.aws.s3.videos-prefix: "videos/"
+  app.aws.s3.frames-prefix: "frames/"
+  app.aws.region: "us-east-1"
